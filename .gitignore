@@ -1,0 +1,5 @@
+# Nextflow
+work/
+flowchart.*
+.nextflow*
+out/
