@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#!/usr/bin/env python
 
 import sys
 import csv
@@ -7,20 +7,19 @@ import re
 # Handle command line arguments
 # =============================================================================
 if len(sys.argv) < 3 or len(sys.argv) > 4:
-    print("Usage: {} <fastq_path> <samplesheet> <prefixes_to_ignore>".format(sys.argv[0]))
+    print("Usage: {} <fastq_path> <prefixes_to_ignore>".format(sys.argv[0]))
     exit
 
 fastq_dir = sys.argv[1]
-samplesheet = sys.argv[2]
 ignore = sys.argv[3].split(',') if len(sys.argv) == 4 else []
 
 # Helper functions
 # =============================================================================
 
 def library_to_type(library, custom):
-    if 'cDNA' in library:
+    if 'cdna' in library.lower():
         return "Gene Expression"
-    if 'HTO' in library and custom:
+    if 'hto' in library.lower() and custom:
         return "Custom"
 
     return "Antibody Capture"
@@ -34,6 +33,7 @@ def should_keep(library, ignore):
 # Extract libraries from samplesheet
 # =============================================================================
 
+samplesheet = "{}/outs/input_samplesheet.csv".format(fastq_dir)
 libraries = set()
 
 with open(samplesheet, 'r') as csvfile:
@@ -59,4 +59,4 @@ for sample in samples:
         writer.writerow(['fastqs', 'sample', 'library_type'])
         
         for library in sample_libraries:
-            writer.writerow(["{}/outs/fastq_path".format(fastq_dir), library, "'{}'".format(library_to_type(library, custom))])
+            writer.writerow(["{}/outs/fastq_path".format(fastq_dir), library, "{}".format(library_to_type(library, custom))])
