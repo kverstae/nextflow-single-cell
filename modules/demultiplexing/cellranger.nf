@@ -1,6 +1,10 @@
 nextflow.enable.dsl=2
 
-process mkfastq {
+process CELLRANGER_MKFASTQ {
+    container params.cellranger.container
+    publishDir "${params.out}/FASTQ", mode: 'copy'
+    label 'cpu_mem'
+
     input:
         tuple val(id), path(run), file(csv)
 
@@ -11,6 +15,8 @@ process mkfastq {
         """
             cellranger mkfastq --id=$id \
                 --run=$run \
-                --csv=$csv
+                --csv=$csv \
+                --localcores=${task.cpus} \
+                --localmem=${task.memory.toGiga()}
         """
 }
