@@ -3,6 +3,7 @@ nextflow.enable.dsl=2
 process CELLRANGER_LIBRARIES_CSV {
     container "python:3.8-slim"
     publishDir "${params.out}/RUNFILES", mode: 'copy', pattern: '*_libraries.csv'
+    queue 'small'
 
     input:
         tuple path(fastq_dir), val(ids_to_ignore)

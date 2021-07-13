@@ -4,6 +4,7 @@ process CELLRANGER_MKFASTQ {
     container params.cellranger.container
     publishDir "${params.out}/FASTQ", mode: 'copy'
     label 'cpu_mem'
+    queue 'cpu_mem'
 
     input:
         tuple val(id), path(run), file(csv)

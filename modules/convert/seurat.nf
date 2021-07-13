@@ -3,6 +3,7 @@ nextflow.enable.dsl=2
 process CONVERT_H5_TO_SEURAT_RDS {
     container params.seurat.container
     label 'mem'
+    queue 'mem'
 
     input:
         file(in_h5)

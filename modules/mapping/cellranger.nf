@@ -4,6 +4,7 @@ process CELLRANGER_COUNT {
     container params.cellranger.container
     publishDir "${params.out}/COUNTS", mode: 'copy'
     label 'cpu_mem'
+    queue 'cpu_mem'
 
     input:
         tuple val(id), file(libraries), path(fastq_path), path(transcriptome), path(feature_reference)
