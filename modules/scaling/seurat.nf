@@ -1,20 +1,20 @@
 nextflow.enable.dsl=2
 
-process CONVERT_H5_TO_SEURAT_RDS {
+process SEURAT_SCALE {
     container params.seurat.container
     label 'mem'
     queue 'mem'
 
     input:
-        file(h5_in)
+        file(seurat_in)
 
     output:
         file('seuratObj.Rds')
 
     script:
         """
-            ${workflow.projectDir}/bin/convert/seurat/h5_to_seurat_Rds.R \
-            --input_filtered $h5_in \
+            ${workflow.projectDir}/bin/scale/seurat/scale.R \
+            --input $seurat_in \
             --output seuratObj.Rds
         """
 }
