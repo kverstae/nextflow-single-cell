@@ -2,6 +2,7 @@ nextflow.enable.dsl=2
 
 process SEURAT_DEG {
     container params.seurat.container
+    publishDir params.out
     label 'mem'
     queue 'mem'
 
@@ -15,6 +16,6 @@ process SEURAT_DEG {
         """
             ${workflow.projectDir}/bin/deg/seurat/deg.R \
             --input $seurat_in \
-            --output seuratObj.Rds
+            --output markers.xlsx
         """
 }

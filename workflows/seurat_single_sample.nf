@@ -6,6 +6,8 @@ include { SEURAT_HVG } from '../modules/variable_features/seurat';
 include { SEURAT_SCALE } from '../modules/scaling/seurat';
 include { SEURAT_PCA; SEURAT_TSNE; SEURAT_UMAP } from '../modules/dimensionality_reduction/seurat';
 include { SEURAT_NEIGHBORS; SEURAT_CLUSTER } from '../modules/clustering/seurat';
+include { SEURAT_DEG } from '../modules/differential_gene_expression/seurat';
+include { DOUBLETFINDER } from '../modules/doublet_detection/doubletfinder';
 
 workflow seurat_single_sample {
     take:
@@ -22,6 +24,8 @@ workflow seurat_single_sample {
         | SEURAT_CLUSTER \
         | SEURAT_TSNE \
         | SEURAT_UMAP
+
+        SEURAT_DEG(out)
 
     emit:
         out
