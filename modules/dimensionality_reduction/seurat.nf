@@ -6,10 +6,10 @@ process SEURAT_PCA {
     queue 'mem'
 
     input:
-        file(seurat_in)
+        tuple val(id), file(seurat_in)
 
     output:
-        file('seuratObj.Rds')
+        tuple val(id), file('seuratObj.Rds')
 
     script:
         """
@@ -25,10 +25,10 @@ process SEURAT_TSNE {
     queue 'mem'
 
     input:
-        file(seurat_in)
+        tuple val(id), file(seurat_in)
 
     output:
-        file('seuratObj.Rds')
+        tuple val(id), file('seuratObj.Rds')
 
     script:
         """
@@ -40,14 +40,15 @@ process SEURAT_TSNE {
 
 process SEURAT_UMAP {
     container params.seurat.container
+    publishDir "${params.out}/PROCESSED/${id}", mode: 'copy'
     label 'mem'
     queue 'mem'
 
     input:
-        file(seurat_in)
+        tuple val(id), file(seurat_in)
 
     output:
-        file('seuratObj.Rds')
+        tuple val(id), file('seuratObj.Rds')
 
     script:
         """

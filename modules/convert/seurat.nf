@@ -6,10 +6,10 @@ process CONVERT_H5_TO_SEURAT_RDS {
     queue 'mem'
 
     input:
-        file(h5_in)
+        tuple val(id), file(h5_in)
 
     output:
-        file('seuratObj.Rds')
+        tuple val(id), file('seuratObj.Rds')
 
     script:
         """

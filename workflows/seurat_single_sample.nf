@@ -7,14 +7,13 @@ include { SEURAT_SCALE } from '../modules/scaling/seurat';
 include { SEURAT_PCA; SEURAT_TSNE; SEURAT_UMAP } from '../modules/dimensionality_reduction/seurat';
 include { SEURAT_NEIGHBORS; SEURAT_CLUSTER } from '../modules/clustering/seurat';
 include { SEURAT_DEG } from '../modules/differential_gene_expression/seurat';
-include { DOUBLETFINDER } from '../modules/doublet_detection/doubletfinder';
 
 workflow seurat_single_sample {
     take:
-        input_h5
+        input // tuple of format [id, h5]
 
     main:
-        out = input_h5 \
+        out = input \
         | CONVERT_H5_TO_SEURAT_RDS \
         | SEURAT_LOGNORMALIZE \
         | SEURAT_HVG \
@@ -28,12 +27,14 @@ workflow seurat_single_sample {
         SEURAT_DEG(out)
 
     emit:
-        out
+        out // tuple of format [id, seuratObj.Rds]
 }
 
 workflow {
     main:
-        data = Channel.fromPath(params.seurat.input_h5)
+        data = Channel.fromPath(params.seurat.input_h5) \
+        | map { p -> [params.seurat.id, p] }
+
         seurat_single_sample(data)
     emit:
         seurat_single_sample.out

@@ -6,10 +6,10 @@ process SEURAT_SCALE {
     queue 'mem'
 
     input:
-        file(seurat_in)
+        tuple val(id), file(seurat_in)
 
     output:
-        file('seuratObj.Rds')
+        tuple val(id), file('seuratObj.Rds')
 
     script:
         """

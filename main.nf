@@ -5,8 +5,9 @@ include { seurat_single_sample } from './workflows/seurat_single_sample'
 
 workflow {
     main:
-        cellranger_tenx()
-
+        _out = cellranger_tenx \
+        | map { it -> [it.toString().split('/')[-1], it + '/outs/filtered_feature_bc_matrix.h5']} \
+        | seurat_single_sample
     emit:
-        cellranger_tenx.out
+        _out
 }

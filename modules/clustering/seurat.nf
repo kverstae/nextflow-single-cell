@@ -6,10 +6,10 @@ process SEURAT_NEIGHBORS {
     queue 'mem'
 
     input:
-        file(seurat_in)
+        tuple val(id), file(seurat_in)
 
     output:
-        file('seuratObj.Rds')
+        tuple val(id), file('seuratObj.Rds')
 
     script:
         """
@@ -25,10 +25,10 @@ process SEURAT_CLUSTER {
     queue 'mem'
 
     input:
-        file(seurat_in)
+        tuple val(id), file(seurat_in)
 
     output:
-        file('seuratObj.Rds')
+        tuple val(id), file('seuratObj.Rds')
 
     script:
         """
