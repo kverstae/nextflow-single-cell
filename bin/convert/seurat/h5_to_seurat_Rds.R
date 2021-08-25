@@ -152,6 +152,6 @@ if (!is.null(args$input_raw)) {
 }
 
 seuratObj <- createMultimodalSeurat(data, args$assays, args$min_cells, args$min_features)
-seuratObj <- addMatrixSourceMeta(seuratObj, data.filtered[["Gene Expression"]], data[["Gene Expression"]])
+seuratObj <- addMatrixSourceMeta(seuratObj, if (is.list(data.filtered)) data.filtered[["Gene Expression"]] else data.filtered, if (is.list(data)) data[["Gene Expression"]] else data)
 
 saveRDS(seuratObj, args$output)
