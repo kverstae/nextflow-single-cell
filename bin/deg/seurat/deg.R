@@ -18,7 +18,7 @@ option_list <- list(
         "--output",
         type = "character",
         dest = "output",
-        help = "Output xlsx with marker genes"
+        help = "Output Rds with marker genes"
     )
 )
 
@@ -30,9 +30,4 @@ seuratObj <- readRDS(args$input)
 
 markers <- FindAllMarkers(seuratObj)
 
-markersList <- list()
-for (cluster in unique(markers$cluster)) {
-    markersList[[cluster]] <- markers[markers$cluster == cluster]
-}
-
-write.xlsx(markersList, file = opt$output)
+saveRDS(markers, args$output)
