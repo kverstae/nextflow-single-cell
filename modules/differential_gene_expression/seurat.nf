@@ -5,6 +5,7 @@ process SEURAT_DEG {
     publishDir "${params.out}/PROCESSED/${id}", mode: 'copy'
     label 'mem'
     queue 'mem'
+    pod nodeSelector: 'agentpool=cpumem'    
 
     input:
         tuple val(id), file(seurat_in)

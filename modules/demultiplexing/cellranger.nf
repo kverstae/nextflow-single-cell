@@ -4,7 +4,8 @@ process CELLRANGER_MKFASTQ {
     container params.cellranger.container
     publishDir "${params.out}/FASTQ", mode: 'copy'
     label 'cpu_mem'
-    queue 'cpu_mem'
+    queue 'cpumem'
+    pod nodeSelector: 'agentpool=cpumem'
 
     input:
         tuple val(id), path(run), file(csv)
@@ -16,8 +17,6 @@ process CELLRANGER_MKFASTQ {
         """
             cellranger mkfastq --id=$id \
                 --run=$run \
-                --csv=$csv \
-                --localcores=${task.cpus} \
-                --localmem=${task.memory.toGiga()}
+                --csv=$csv
         """
 }

@@ -4,6 +4,7 @@ process CONVERT_H5_TO_SEURAT_RDS {
     container params.seurat.container
     label 'mem'
     queue 'mem'
+    pod nodeSelector: 'agentpool=cpumem'
 
     input:
         tuple val(id), file(h5_in)

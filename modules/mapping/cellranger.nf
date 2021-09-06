@@ -4,7 +4,8 @@ process CELLRANGER_COUNT {
     container params.cellranger.container
     publishDir "${params.out}/COUNTS", mode: 'copy'
     label 'cpu_mem'
-    queue 'cpu_mem'
+    queue 'cpumem'
+    pod nodeSelector: 'agentpool=cpumem'
 
     input:
         tuple val(id), file(libraries), path(fastq_path), path(transcriptome), path(feature_reference)
@@ -17,8 +18,6 @@ process CELLRANGER_COUNT {
             cellranger count --id=$id \
                 --libraries=$libraries \
                 --transcriptome=$transcriptome \
-                --feature-ref=$feature_reference \
-                --localcores=${task.cpus} \
-                --localmem=${task.memory.toGiga()}
+                --feature-ref=$feature_reference
         """
 }

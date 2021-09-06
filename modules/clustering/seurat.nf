@@ -4,6 +4,7 @@ process SEURAT_NEIGHBORS {
     container params.seurat.container
     label 'mem'
     queue 'mem'
+    pod nodeSelector: 'agentpool=cpumem'
 
     input:
         tuple val(id), file(seurat_in)
@@ -23,6 +24,7 @@ process SEURAT_CLUSTER {
     container params.seurat.container
     label 'mem'
     queue 'mem'
+    pod nodeSelector: 'agentpool=cpumem'
 
     input:
         tuple val(id), file(seurat_in)
@@ -37,3 +39,4 @@ process SEURAT_CLUSTER {
             --output seuratObj.Rds
         """
 }
+
