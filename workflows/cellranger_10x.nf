@@ -8,7 +8,7 @@ workflow cellranger_tenx {
     main:
         out = Channel.fromPath(params.cellranger.input_csv) \
             | splitCsv(header: true, sep: ",") \
-            | map { row -> [row.run_id, row.run_dir, row.samplesheet] } \
+            | map { row -> [row.run_id, file(row.run_dir), file(row.samplesheet)] } \
             | CELLRANGER_MKFASTQ \
             | map { [file(it), params.cellranger.ids_to_ignore] } \
             | CELLRANGER_LIBRARIES_CSV \
