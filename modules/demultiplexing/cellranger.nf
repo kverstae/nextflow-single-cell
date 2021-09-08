@@ -17,6 +17,7 @@ process CELLRANGER_MKFASTQ {
         """
             cellranger mkfastq --id=$id \
                 --run=$run \
-                --csv=$csv
+                --csv=$csv \
+		--barcodes-mismatch=0
         """
 }
