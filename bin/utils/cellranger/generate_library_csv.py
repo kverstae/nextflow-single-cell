@@ -6,12 +6,12 @@ import re
 
 # Handle command line arguments
 # =============================================================================
-if len(sys.argv) < 3 or len(sys.argv) > 4:
+if len(sys.argv) < 2 or len(sys.argv) > 3:
     print("Usage: {} <fastq_path> <prefixes_to_ignore>".format(sys.argv[0]))
     exit
 
 fastq_dir = sys.argv[1]
-ignore = sys.argv[3].split(',') if len(sys.argv) == 4 else []
+ignore = sys.argv[2].split(',') if len(sys.argv) == 3 else []
 
 # Helper functions
 # =============================================================================
@@ -40,6 +40,8 @@ with open(samplesheet, 'r') as csvfile:
     reader = csv.reader(csvfile, delimiter=',')
     next(reader, None)
     for line in reader:
+        if len(line) == 0:
+            continue
         libraries.add(line[1])
 
 samples = filter(lambda s: should_keep(s, ignore), set(map(lambda l: l.split('_')[0], libraries)))
